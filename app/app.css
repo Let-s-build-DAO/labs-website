@@ -1,15 +1,24 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@font-face {
+  font-family: 'Atyp';
+  src: url('/fonts/AtypDisplayTRIAL-Regular.otf') format('opentype');
+  font-style: normal;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background-color: #030303;
+  color: #FBFBFB;
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  font-family: 'Atyp';
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+
+.linear {
+  border: 1px solid transparent;
+  border-image-source: linear-gradient(90deg, rgba(123, 92, 255, 0.1) -2.94%, #7B5CFF 49.17%, rgba(123, 92, 255, 0.1) 102.37%);
+  border-image-slice: 1;
+  backdrop-filter: blur(500px);
 }

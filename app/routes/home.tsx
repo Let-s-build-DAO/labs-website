@@ -1,13 +1,862 @@
+import HeaderNav from "~/components/HeaderNav";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import Footer from "~/components/Footer";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "Let's Build Labs" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState({
+    hero: false,
+    projects: false,
+    team: false,
+    contact: false
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      // Check visibility of sections for scroll animations
+      const sections = ['hero', 'projects', 'team', 'contact'];
+      const newVisibility = { ...isVisible };
+      
+      sections.forEach(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const isInView = rect.top < window.innerHeight * 0.7 && rect.bottom > 0;
+          newVisibility[section as keyof typeof isVisible] = isInView;
+        }
+      });
+      
+      setIsVisible(newVisibility);
+    };
+    
+    // Initial check
+    handleScroll();
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Trigger hero animation on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(prev => ({ ...prev, hero: true }));
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Calculate scale and border radius based on scroll
+  const maxScroll = 400; // Adjust this value to control how much scroll affects the scaling
+  const scrollProgress = Math.min(scrollY / maxScroll, 1);
+  const scale = 1 - scrollProgress * 0.1; // Scale from 1 to 0.9
+  const borderRadius = scrollProgress * 24; // Border radius from 0 to 24px
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append("name", formData.name);
+      formDataToSubmit.append("email", formData.email);
+      formDataToSubmit.append("message", formData.message);
+      formDataToSubmit.append(
+        "_subject",
+        "New Contact Form Submission from LB Labs Website"
+      );
+      formDataToSubmit.append("_captcha", "false");
+      formDataToSubmit.append("_template", "table");
+
+      await axios.post(
+        "https://formsubmit.co/hello@letsbuilddao.org",
+        formDataToSubmit,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <HeaderNav />
+      <section
+        id="hero"
+        className="relative overflow-hidden transition-transform duration-200 ease-out"
+        style={{
+          transform: `scale(${scale})`,
+          borderRadius: `${borderRadius}px`,
+          transformOrigin: "center top",
+        }}
+      >
+        <img
+          src="/images/hero.jpg"
+          className="w-full h-[100vh] object-cover"
+          alt="Hero Image"
+        />
+
+        <div className="absolute inset-0 bg-black opacity-80"></div>
+
+        <div className={`absolute inset-0 flex flex-col items-center justify-center text-white px-6 transition-all duration-1000 ${
+          isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="text-center max-w-5xl mx-auto">
+            <div className={`mb-6 transition-all duration-700 delay-300 ${
+              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}>
+              <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 tracking-wide uppercase hover:bg-white/30 transition-all duration-300">
+                Let's Build Labs
+              </span>
+            </div>
+
+            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 transition-all duration-700 delay-500 ${
+              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
+              <span className="block hover:scale-105 transition-transform duration-300">Innovating the</span>
+              <span className="block bg-gradient-to-r from-[#7B5CFF] to-[#E879F9] bg-clip-text text-transparent hover:from-[#E879F9] hover:to-[#7B5CFF] transition-all duration-500">
+                Future of
+              </span>
+              <span className="block hover:scale-105 transition-transform duration-300">Decentralized Technology</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className={`text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed transition-all duration-700 delay-700 ${
+              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}>
+              Building the next generation of Web3 solutions, empowering
+              developers, and creating innovative blockchain experiences for
+              everyone.
+            </p>
+
+            {/* Call-to-Action Buttons */}
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-700 delay-900 ${
+              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}>
+              <button className="px-8 py-4 bg-gradient-to-r from-[#7B5CFF] to-[#6B46C1] text-white rounded-full font-semibold hover:from-[#6B46C1] hover:to-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-2xl active:scale-95">
+                Contact Us
+              </button>
+              <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 rounded-full font-semibold hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95">
+                Learn More
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="about"></section>
+      <section id="projects" className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Our Projects
+            </h2>
+            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+              Discover the innovative projects we're working on to shape the
+              future of decentralized technology.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <img
+                src="/images/projects/lets-build-dao.png"
+                className="h-80 w-full object-cover"
+                alt="Let's Build DAO"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold my-2">Let's Build DAO</h3>
+                <p className="text-[#6B7280]  mb-4">
+                  Africa’s first On-Chain Intelligence Hub, designed to drive
+                  real blockchain adoption by collecting, analyzing, and
+                  leveraging on-chain transaction data.
+                </p>
+                <a
+                  href="https://letsbuilddao.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                >
+                  Learn More
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <img
+                src="/images/projects/academy.png"
+                className="h-80 w-full object-cover"
+                alt="Let's Build DAO"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold my-2">Let's Build Academy</h3>
+                <p className="text-[#6B7280]  mb-4">
+                  A self-learning platform offering Web3 courses in development,
+                  design, and blockchain writing.
+                </p>
+                <a
+                  href="https://academy.letsbuilddao.org"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                >
+                  Learn More
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <img
+                src="/images/projects/events.jpg"
+                className="h-80 w-full object-cover"
+                alt="Let's Build DAO"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold my-2">
+                  Hackathons, Meetups & Bootcamps
+                </h3>
+                <p className="text-[#6B7280]  mb-4">
+                  Connecting Enthusiasts, students, builders, investors, and
+                  innovators to bring impactful Web3 projects to life.
+                </p>
+                <a
+                  href="https://meetup.letsbuilddao.org"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                >
+                  Learn More
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <img
+                src="/images/projects/nfts.jpg"
+                className="h-80 w-full object-cover"
+                alt="Let's Build DAO"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold my-2">Lazy NFT's</h3>
+                <p className="text-[#6B7280]  mb-4">
+                  The gateway of the Let's Build DAO ecosystem — where your NFT
+                  is more than just art. It's your all-access pass to the new
+                  economy of skills, community, and power.
+                </p>
+                <a
+                  href="https://lazy.letsbuilddao.org"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                >
+                  Learn More
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Meet Our Team
+            </h2>
+            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+              The passionate individuals driving innovation and building the
+              future of decentralized technology.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Team Member 1 */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                GA
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Great Adams
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">Team Lead</p>
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Team Member 2 */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#9333EA] to-[#C084FC] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                AE
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Alabo Excel
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">
+                Development Team Lead
+              </p>
+
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Team Member 3 */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#C084FC] to-[#DDD6FE] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                BV
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Bibi Victoria
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">
+                Human Resource Manager
+              </p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Passionate educator creating comprehensive learning experiences
+                for developers worldwide.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Team Member 4 */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                JC
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Jerry Chukwundah
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">
+                Product Manager
+              </p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Building and nurturing our global community of developers,
+                creators, and innovators.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                NN
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Natachi Nnamaka
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">Academy Lead</p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Building and nurturing our global community of developers,
+                creators, and innovators.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                RR
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">Richard</h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">Design Lead</p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Building and nurturing our global community of developers,
+                creators, and innovators.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                JB
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Joseph Bassey
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">
+                Community Management Lead
+              </p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Building and nurturing our global community of developers,
+                creators, and innovators.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                CO
+              </div>
+              <h3 className="text-xl font-bold text-[#030303] mb-2">
+                Chisaneme
+              </h3>
+              <p className="text-[#6B46C1] font-semibold mb-3">
+                Marketing Lead
+              </p>
+              {/* <p className="text-[#6B7280] text-sm mb-4">
+                Building and nurturing our global community of developers,
+                creators, and innovators.
+              </p> */}
+              <div className="flex justify-center space-x-3">
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="py-16 px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+              For inquiries, please reach out to us at{" "}
+              <a
+                href="mailto:hello@letsbuilddao.org"
+                className="text-[#6B46C1] hover:text-[#553C9A] font-semibold transition-colors duration-300"
+              >
+                hello@letsbuilddao.org
+              </a>{" "}
+              or use the form below.
+            </p>
+          </div>
+
+          <div className="rounded-2xl shadow-2xl p-8 md:p-12">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {submitStatus === "success" && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                  <p className="text-green-800 font-medium">
+                    ✅ Message sent successfully! We'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                  <p className="text-red-800 font-medium">
+                    ❌ Failed to send message. Please try again or email us
+                    directly.
+                  </p>
+                </div>
+              )}
+
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-[#030303] mb-2"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-[#E5DEFF] rounded-lg focus:ring-2 focus:ring-[#6B46C1] focus:border-transparent outline-none transition-all duration-300 bg-[#F8F6FF] text-[#030303] placeholder-[#9CA3AF] disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Enter your full name"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-[#030303] mb-2"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-[#E5DEFF] rounded-lg focus:ring-2 focus:ring-[#6B46C1] focus:border-transparent outline-none transition-all duration-300 bg-[#F8F6FF] text-[#030303] placeholder-[#9CA3AF] disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Enter your email address"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-semibold text-[#030303] mb-2"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  rows={6}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-[#E5DEFF] rounded-lg focus:ring-2 focus:ring-[#6B46C1] focus:border-transparent outline-none transition-all duration-300 bg-[#F8F6FF] text-[#030303] placeholder-[#9CA3AF] resize-vertical disabled:opacity-50 disabled:cursor-not-allowed"
+                  placeholder="Tell us about your project or inquiry..."
+                ></textarea>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#6B46C1] hover:bg-[#553C9A] text-white font-semibold py-4 px-6 rounded-full transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl focus:ring-4 focus:ring-[#6B46C1]/30 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : (
+                    "Send Message"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </>
+  );
 }
