@@ -25,11 +25,11 @@ export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.ico", sizes: "any" },
   { rel: "icon", href: "/images/icon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/images/apple-touch-icon.png" },
-  
+
   // DNS prefetch for external resources
   { rel: "dns-prefetch", href: "//formsubmit.co" },
   { rel: "dns-prefetch", href: "//fonts.googleapis.com" },
-  
+
   // Preload critical resources
   { rel: "preload", href: "/images/hero.jpg", as: "image", type: "image/jpeg" },
 ];
@@ -40,6 +40,80 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* SEO Meta Tags */}
+        <meta
+          name="description"
+          content="Let's Build Labs is developing the next generation of Web3 solutions across Africa. Join our community of 1000+ developers building decentralized technology and blockchain experiences."
+        />
+        <meta
+          name="keywords"
+          content="Web3, blockchain, decentralized technology, Africa, Web3 development, Let's Build DAO, cryptocurrency, DeFi, NFT, smart contracts, blockchain infrastructure"
+        />
+        <meta name="author" content="Let's Build Labs" />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph tags for social media */}
+        <meta
+          property="og:title"
+          content="Let's Build Labs - Innovating Web3 Technology in Africa"
+        />
+        <meta
+          property="og:description"
+          content="Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://letsbuilddao.org" />
+        <meta
+          property="og:image"
+          content="https://labs.letsbuilddao.org/images/og-image.png"
+        />
+        <meta
+          property="og:image:alt"
+          content="Let's Build Labs - Web3 Development in Africa"
+        />
+        <meta property="og:site_name" content="Let's Build Labs" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Let's Build Labs - Innovating Web3 Technology in Africa"
+        />
+        <meta
+          name="twitter:description"
+          content="Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa."
+        />
+        <meta
+          name="twitter:image"
+          content="https://labs.letsbuilddao.org/images/og-image.png"
+        />
+        <meta
+          name="twitter:image:alt"
+          content="Let's Build Labs - Web3 Development in Africa"
+        />
+        <meta name="twitter:site" content="@LetsBuildDAO" />
+        <meta name="twitter:creator" content="@LetsBuildDAO" />
+
+        {/* Additional SEO tags */}
+        <meta name="theme-color" content="#6B46C1" />
+        <meta name="msapplication-TileColor" content="#6B46C1" />
+        <meta name="application-name" content="Let's Build Labs" />
+        <meta name="apple-mobile-web-app-title" content="Let's Build Labs" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://labs.letsbuilddao.org" />
+
+        {/* Alternate languages */}
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href="https://labs.letsbuilddao.org"
+        />
+
         <Meta />
         <Links />
       </head>

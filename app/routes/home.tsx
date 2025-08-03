@@ -7,87 +7,6 @@ import axios from "axios";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Let's Build Labs - Innovating Web3 Technology in Africa" },
-    {
-      name: "description",
-      content:
-        "Let's Build Labs is developing the next generation of Web3 solutions across Africa. Join our community of 1000+ developers building decentralized technology and blockchain experiences.",
-    },
-    {
-      name: "keywords",
-      content:
-        "Web3, blockchain, decentralized technology, Africa, Web3 development, Let's Build DAO, cryptocurrency, DeFi, NFT, smart contracts, blockchain infrastructure",
-    },
-    { name: "author", content: "Let's Build Labs" },
-    { name: "robots", content: "index, follow" },
-    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-
-    // Open Graph tags for social media
-    {
-      property: "og:title",
-      content: "Let's Build Labs - Innovating Web3 Technology in Africa",
-    },
-    {
-      property: "og:description",
-      content:
-        "Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa.",
-    },
-    { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://letsbuilddao.org" },
-    {
-      property: "og:image",
-      content: "https://labs.letsbuilddao.org/images/og-image.png",
-    },
-    {
-      property: "og:image:alt",
-      content: "Let's Build Labs - Web3 Development in Africa",
-    },
-    { property: "og:site_name", content: "Let's Build Labs" },
-    { property: "og:locale", content: "en_US" },
-
-    // Twitter Card tags
-    { name: "twitter:card", content: "summary_large_image" },
-    {
-      name: "twitter:title",
-      content: "Let's Build Labs - Innovating Web3 Technology in Africa",
-    },
-    {
-      name: "twitter:description",
-      content:
-        "Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa.",
-    },
-    {
-      name: "twitter:image",
-      content: "https://labs.letsbuilddao.org/images/og-image.png",
-    },
-    {
-      name: "twitter:image:alt",
-      content: "Let's Build Labs - Web3 Development in Africa",
-    },
-    { name: "twitter:site", content: "@LetsBuildDAO" },
-    { name: "twitter:creator", content: "@LetsBuildDAO" },
-
-    // Additional SEO tags
-    { name: "theme-color", content: "#6B46C1" },
-    { name: "msapplication-TileColor", content: "#6B46C1" },
-    { name: "application-name", content: "Let's Build Labs" },
-    { name: "apple-mobile-web-app-title", content: "Let's Build Labs" },
-    { name: "apple-mobile-web-app-capable", content: "yes" },
-    { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-
-    // Canonical URL
-    {
-      tagName: "link",
-      rel: "canonical",
-      href: "https://labs.letsbuilddao.org",
-    },
-
-    // Alternate languages (if you plan to support multiple languages)
-    {
-      tagName: "link",
-      rel: "alternate",
-      hrefLang: "en",
-      href: "https://labs.letsbuilddao.org",
-    },
   ];
 }
 
@@ -112,6 +31,26 @@ export default function Home() {
   });
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Creative marketing texts array
+  const marketingTexts = [
+    "Preparing Africa's Web3 revolution...",
+    "Building tomorrow's digital Africa...",
+    "Connecting the continent to Web3...",
+    "Crafting Africa's blockchain future...",
+    "Empowering African developers...",
+    "Unleashing Web3 across Africa...",
+    "Loading African innovation...",
+    "Bridging Africa to decentralization...",
+    "Awakening the digital lion...",
+    "Igniting Africa's tech renaissance...",
+    "Preparing Africa's Web3 story...",
+  ];
+
+  // Select random marketing text on component mount
+  const [randomText] = useState(() => {
+    return marketingTexts[Math.floor(Math.random() * marketingTexts.length)];
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -246,7 +185,7 @@ export default function Home() {
 
             {/* Loading Text */}
             <p className="text-white/90 text-sm md:text-base font-medium">
-              Preparing Africa's Web3 story...
+              {randomText}
             </p>
 
             {/* Progress Bar */}
