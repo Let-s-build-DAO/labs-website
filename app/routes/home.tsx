@@ -24,34 +24,45 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState({
     hero: false,
+    about: false,
+    partners: false,
     projects: false,
     team: false,
-    contact: false
+    contact: false,
   });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
+
       // Check visibility of sections for scroll animations
-      const sections = ['hero', 'projects', 'team', 'contact'];
+      const sections = [
+        "hero",
+        "about",
+        "partners",
+        "projects",
+        "team",
+        "contact",
+      ];
       const newVisibility = { ...isVisible };
-      
-      sections.forEach(section => {
+
+      sections.forEach((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          const isInView = rect.top < window.innerHeight * 0.7 && rect.bottom > 0;
+          const isInView =
+            rect.top < window.innerHeight * 0.7 && rect.bottom > 0;
           newVisibility[section as keyof typeof isVisible] = isInView;
         }
       });
-      
+
       setIsVisible(newVisibility);
     };
-    
+
     // Initial check
     handleScroll();
-    
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -59,9 +70,14 @@ export default function Home() {
   // Trigger hero animation on mount
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(prev => ({ ...prev, hero: true }));
+      setIsVisible((prev) => ({ ...prev, hero: true }));
     }, 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Client-side only
+  useEffect(() => {
+    setIsClient(true);
   }, []);
 
   // Calculate scale and border radius based on scroll
@@ -137,41 +153,65 @@ export default function Home() {
 
         <div className="absolute inset-0 bg-black opacity-80"></div>
 
-        <div className={`absolute inset-0 flex flex-col items-center justify-center text-white px-6 transition-all duration-1000 ${
-          isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center text-white px-6 transition-all duration-1000 ${
+            isVisible.hero
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
           <div className="text-center max-w-5xl mx-auto">
-            <div className={`mb-6 transition-all duration-700 delay-300 ${
-              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            }`}>
+            <div
+              className={`mb-6 transition-all duration-700 delay-300 ${
+                isVisible.hero
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-5"
+              }`}
+            >
               <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 tracking-wide uppercase hover:bg-white/30 transition-all duration-300">
                 Let's Build Labs
               </span>
             </div>
 
-            <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 transition-all duration-700 delay-500 ${
-              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}>
-              <span className="block hover:scale-105 transition-transform duration-300">Innovating the</span>
+            <h1
+              className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 transition-all duration-700 delay-500 ${
+                isVisible.hero
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <span className="block hover:scale-105 transition-transform duration-300">
+                Innovating the
+              </span>
               <span className="block bg-gradient-to-r from-[#7B5CFF] to-[#E879F9] bg-clip-text text-transparent hover:from-[#E879F9] hover:to-[#7B5CFF] transition-all duration-500">
                 Future of
               </span>
-              <span className="block hover:scale-105 transition-transform duration-300">Decentralized Technology</span>
+              <span className="block hover:scale-105 transition-transform duration-300">
+                Decentralized Technology
+              </span>
             </h1>
 
             {/* Subtitle */}
-            <p className={`text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed transition-all duration-700 delay-700 ${
-              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            }`}>
+            <p
+              className={`text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed transition-all duration-700 delay-700 ${
+                isVisible.hero
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-5"
+              }`}
+            >
               Building the next generation of Web3 solutions, empowering
               developers, and creating innovative blockchain experiences for
               everyone.
             </p>
 
             {/* Call-to-Action Buttons */}
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-700 delay-900 ${
-              isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-            }`}>
+            <div
+              className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-700 delay-900 ${
+                isVisible.hero
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-5"
+              }`}
+            >
               <button className="px-8 py-4 bg-gradient-to-r from-[#7B5CFF] to-[#6B46C1] text-white rounded-full font-semibold hover:from-[#6B46C1] hover:to-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-2xl active:scale-95">
                 Contact Us
               </button>
@@ -182,28 +222,372 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="about"></section>
+
+      {/* About Section */}
+      <section id="about" className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div
+            className={`text-center mb-16 transition-all duration-700 ${
+              isVisible.about
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 hover:text-[#6B46C1] transition-colors duration-300">
+              About Let's Build Labs
+            </h2>
+            <p className="text-lg  max-w-3xl mx-auto">
+              We are a dedicated organisation with a clear focus on developing
+              the infrastructure for Web 3.0 across the continent of Africa.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            {/* Content Side */}
+            <div
+              className={`transition-all duration-700 ${
+                isVisible.about
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-10"
+              }`}
+              style={{ transitionDelay: isVisible.about ? "200ms" : "0ms" }}
+            >
+              <h3 className="text-2xl md:text-3xl font-bold mb-6">Our Aim</h3>
+              <p className=" mb-6 leading-relaxed">
+                Our primary aim is to create a robust set of tools and services
+                that will stimulate and promote the widespread adoption of Web
+                3.0 technologies within the African context.
+              </p>
+              <p className="mb-6 leading-relaxed">
+                In addition to this, we are in the process of building a vibrant
+                and engaged community known as "Let's Build Dao". This community
+                serves as a platform for collaboration, knowledge sharing, and
+                mutual growth. It is through this community that we hope to
+                inspire and facilitate the development of a new digital
+                landscape in Africa.
+              </p>
+
+              {/* Key Stats */}
+              <div className="grid grid-cols-2 gap-6 mt-8">
+                <div className="text-center p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <h4 className="text-2xl font-bold text-[#6B46C1] mb-2">
+                    1000+
+                  </h4>
+                  <p className="text-[#6B7280] text-sm">Community Members</p>
+                </div>
+                <div className="text-center p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <h4 className="text-2xl font-bold text-[#6B46C1] mb-2">
+                    80+
+                  </h4>
+                  <p className="text-[#6B7280] text-sm">NFT's Minted</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Side */}
+            <div
+              className={`transition-all duration-700 ${
+                isVisible.about
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 translate-x-10"
+              }`}
+              style={{ transitionDelay: isVisible.about ? "400ms" : "0ms" }}
+            >
+              <div className="relative">
+                <div className="bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-2xl p-8 text-white">
+                  <h4 className="text-xl font-bold mb-4">What Sets Us Apart</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <svg
+                        className="w-5 h-5 mt-1 mr-3 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>Africa-focused blockchain solutions</span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="w-5 h-5 mt-1 mr-3 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>Comprehensive education platform</span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="w-5 h-5 mt-1 mr-3 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>Community-driven development</span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="w-5 h-5 mt-1 mr-3 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>Real-world problem solving</span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="w-5 h-5 mt-1 mr-3 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>DAO-Driven Governance & Funding</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#E879F9] rounded-full opacity-20 animate-pulse"></div>
+                <div
+                  className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#7B5CFF] rounded-full opacity-30 animate-pulse"
+                  style={{ animationDelay: "1s" }}
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Values Section */}
+          <div
+            className={`grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-700 ${
+              isVisible.about
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+            style={{ transitionDelay: isVisible.about ? "600ms" : "0ms" }}
+          >
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                Innovation
+              </h4>
+              <p className="">
+                Pushing the boundaries of what's possible with blockchain
+                technology
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-[#9333EA] to-[#C084FC] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                Community
+              </h4>
+              <p className="">
+                Building a supportive ecosystem for developers and entrepreneurs
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-[#C084FC] to-[#DDD6FE] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                Education
+              </h4>
+              <p className="">
+                Empowering the next generation with Web3 knowledge and skills
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners/Sponsors Section */}
+      <section id="partners" className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div
+            className={`text-center mb-12 transition-all duration-700 ${
+              isVisible.partners
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 hover:text-[#6B46C1] transition-colors duration-300">
+              Our Partners & Sponsors
+            </h2>
+            <p className="text-lg  max-w-2xl mx-auto">
+              Proud to collaborate with leading organizations in the Web3
+              ecosystem
+            </p>
+          </div>
+
+          <div className="overflow-hidden">
+            <div className="animate-marquee whitespace-nowrap py-8">
+              <div className="flex items-center space-x-16 mx-8 animate-marquee-content">
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/borderless.png"
+                    alt="Borderless"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/lisk.png"
+                    alt="Lisk"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/streamlivr.png"
+                    alt="Streamlivr"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/gdg.png"
+                    alt="Google Developer Groups"
+                  />
+                </div>
+                {/* Duplicate for seamless loop */}
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/borderless.png"
+                    alt="Borderless"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/lisk.png"
+                    alt="Lisk"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/streamlivr.png"
+                    alt="Streamlivr"
+                  />
+                </div>
+                <div className="flex-shrink-0 group">
+                  <img
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                    src="/images/partners/gdg.png"
+                    alt="Google Developer Groups"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="projects" className="py-16 px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div
+            className={`text-center mb-16 transition-all duration-700 ${
+              isVisible.projects
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 hover:text-[#6B46C1] transition-colors duration-300">
               Our Projects
             </h2>
-            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+            <p className="text-lg  max-w-2xl mx-auto">
               Discover the innovative projects we're working on to shape the
               future of decentralized technology.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <img
-                src="/images/projects/lets-build-dao.png"
-                className="h-80 w-full object-cover"
-                alt="Let's Build DAO"
-              />
+            <div
+              className={`linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] group cursor-pointer ${
+                isVisible.projects
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.projects ? "100ms" : "0ms" }}
+            >
+              <div className="overflow-hidden rounded-t-2xl">
+                <img
+                  src="/images/projects/lets-build-dao.png"
+                  className="h-80 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt="Let's Build DAO"
+                />
+              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold my-2">Let's Build DAO</h3>
-                <p className="text-[#6B7280]  mb-4">
+                <h3 className="text-xl font-bold my-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                  Let's Build DAO
+                </h3>
+                <p className=" mb-4 group-hover:text-[#4B5563] transition-colors duration-300">
                   Africa’s first On-Chain Intelligence Hub, designed to drive
                   real blockchain adoption by collecting, analyzing, and
                   leveraging on-chain transaction data.
@@ -212,11 +596,11 @@ export default function Home() {
                   href="https://letsbuilddao.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
                 >
                   Learn More
                   <svg
-                    className="ml-2 w-4 h-4"
+                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -232,25 +616,38 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <img
-                src="/images/projects/academy.png"
-                className="h-80 w-full object-cover"
-                alt="Let's Build DAO"
-              />
+            <div
+              className={`linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] group cursor-pointer ${
+                isVisible.projects
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.projects ? "200ms" : "0ms" }}
+            >
+              <div className="overflow-hidden rounded-t-2xl">
+                <img
+                  src="/images/projects/academy.png"
+                  className="h-80 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt="Let's Build Academy"
+                />
+              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold my-2">Let's Build Academy</h3>
-                <p className="text-[#6B7280]  mb-4">
+                <h3 className="text-xl font-bold my-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                  Let's Build Academy
+                </h3>
+                <p className=" mb-4 group-hover:text-[#4B5563] transition-colors duration-300">
                   A self-learning platform offering Web3 courses in development,
                   design, and blockchain writing.
                 </p>
                 <a
                   href="https://academy.letsbuilddao.org"
-                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
                 >
                   Learn More
                   <svg
-                    className="ml-2 w-4 h-4"
+                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -267,27 +664,38 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <img
-                src="/images/projects/events.jpg"
-                className="h-80 w-full object-cover"
-                alt="Let's Build DAO"
-              />
+            <div
+              className={`linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] group cursor-pointer ${
+                isVisible.projects
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.projects ? "300ms" : "0ms" }}
+            >
+              <div className="overflow-hidden rounded-t-2xl">
+                <img
+                  src="/images/projects/events.jpg"
+                  className="h-80 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt="Events"
+                />
+              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold my-2">
+                <h3 className="text-xl font-bold my-2 group-hover:text-[#6B46C1] transition-colors duration-300">
                   Hackathons, Meetups & Bootcamps
                 </h3>
-                <p className="text-[#6B7280]  mb-4">
+                <p className=" mb-4 group-hover:text-[#4B5563] transition-colors duration-300">
                   Connecting Enthusiasts, students, builders, investors, and
                   innovators to bring impactful Web3 projects to life.
                 </p>
                 <a
                   href="https://meetup.letsbuilddao.org"
-                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
                 >
                   Learn More
                   <svg
-                    className="ml-2 w-4 h-4"
+                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -304,26 +712,39 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <img
-                src="/images/projects/nfts.jpg"
-                className="h-80 w-full object-cover"
-                alt="Let's Build DAO"
-              />
+            <div
+              className={`linear !rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] group cursor-pointer ${
+                isVisible.projects
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.projects ? "400ms" : "0ms" }}
+            >
+              <div className="overflow-hidden rounded-t-2xl">
+                <img
+                  src="/images/projects/nfts.jpg"
+                  className="h-80 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt="Lazy NFTs"
+                />
+              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold my-2">Lazy NFT's</h3>
-                <p className="text-[#6B7280]  mb-4">
+                <h3 className="text-xl font-bold my-2 group-hover:text-[#6B46C1] transition-colors duration-300">
+                  Lazy NFT's
+                </h3>
+                <p className=" mb-4 group-hover:text-[#4B5563] transition-colors duration-300">
                   The gateway of the Let's Build DAO ecosystem — where your NFT
                   is more than just art. It's your all-access pass to the new
                   economy of skills, community, and power.
                 </p>
                 <a
                   href="https://lazy.letsbuilddao.org"
-                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
                 >
                   Learn More
                   <svg
-                    className="ml-2 w-4 h-4"
+                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -345,11 +766,17 @@ export default function Home() {
 
       <section id="team" className="py-16 px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div
+            className={`text-center mb-16 transition-all duration-700 ${
+              isVisible.team
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 hover:text-[#6B46C1] transition-colors duration-300">
               Meet Our Team
             </h2>
-            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+            <p className="text-lg  max-w-2xl mx-auto">
               The passionate individuals driving innovation and building the
               future of decentralized technology.
             </p>
@@ -357,11 +784,18 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Team Member 1 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
-              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div
+              className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] text-center group ${
+                isVisible.team
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.team ? "100ms" : "0ms" }}
+            >
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-full flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
                 GA
               </div>
-              <h3 className="text-xl font-bold text-[#030303] mb-2">
+              <h3 className="text-xl font-bold text-[#030303] mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
                 Great Adams
               </h3>
               <p className="text-[#6B46C1] font-semibold mb-3">Team Lead</p>
@@ -398,11 +832,18 @@ export default function Home() {
             </div>
 
             {/* Team Member 2 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
-              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#9333EA] to-[#C084FC] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div
+              className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] text-center group ${
+                isVisible.team
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.team ? "200ms" : "0ms" }}
+            >
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#9333EA] to-[#C084FC] rounded-full flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
                 AE
               </div>
-              <h3 className="text-xl font-bold text-[#030303] mb-2">
+              <h3 className="text-xl font-bold text-[#030303] mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
                 Alabo Excel
               </h3>
               <p className="text-[#6B46C1] font-semibold mb-3">
@@ -446,17 +887,24 @@ export default function Home() {
             </div>
 
             {/* Team Member 3 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
-              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#C084FC] to-[#DDD6FE] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div
+              className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] text-center group ${
+                isVisible.team
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.team ? "300ms" : "0ms" }}
+            >
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#C084FC] to-[#DDD6FE] rounded-full flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
                 BV
               </div>
-              <h3 className="text-xl font-bold text-[#030303] mb-2">
+              <h3 className="text-xl font-bold text-[#030303] mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
                 Bibi Victoria
               </h3>
               <p className="text-[#6B46C1] font-semibold mb-3">
                 Human Resource Manager
               </p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Passionate educator creating comprehensive learning experiences
                 for developers worldwide.
               </p> */}
@@ -493,17 +941,24 @@ export default function Home() {
             </div>
 
             {/* Team Member 4 */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
-              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div
+              className={`bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] text-center group ${
+                isVisible.team
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible.team ? "400ms" : "0ms" }}
+            >
+              <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#DDD6FE] to-[#6B46C1] rounded-full flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
                 JC
               </div>
-              <h3 className="text-xl font-bold text-[#030303] mb-2">
+              <h3 className="text-xl font-bold text-[#030303] mb-2 group-hover:text-[#6B46C1] transition-colors duration-300">
                 Jerry Chukwundah
               </h3>
               <p className="text-[#6B46C1] font-semibold mb-3">
                 Product Manager
               </p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Building and nurturing our global community of developers,
                 creators, and innovators.
               </p> */}
@@ -547,7 +1002,7 @@ export default function Home() {
                 Natachi Nnamaka
               </h3>
               <p className="text-[#6B46C1] font-semibold mb-3">Academy Lead</p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Building and nurturing our global community of developers,
                 creators, and innovators.
               </p> */}
@@ -589,7 +1044,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-[#030303] mb-2">Richard</h3>
               <p className="text-[#6B46C1] font-semibold mb-3">Design Lead</p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Building and nurturing our global community of developers,
                 creators, and innovators.
               </p> */}
@@ -635,7 +1090,7 @@ export default function Home() {
               <p className="text-[#6B46C1] font-semibold mb-3">
                 Community Management Lead
               </p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Building and nurturing our global community of developers,
                 creators, and innovators.
               </p> */}
@@ -681,7 +1136,7 @@ export default function Home() {
               <p className="text-[#6B46C1] font-semibold mb-3">
                 Marketing Lead
               </p>
-              {/* <p className="text-[#6B7280] text-sm mb-4">
+              {/* <p className=" text-sm mb-4">
                 Building and nurturing our global community of developers,
                 creators, and innovators.
               </p> */}
@@ -722,11 +1177,17 @@ export default function Home() {
 
       <section id="contact" className="py-16 px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div
+            className={`text-center mb-8 transition-all duration-700 ${
+              isVisible.contact
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 hover:text-[#6B46C1] transition-colors duration-300">
               Get In Touch
             </h2>
-            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+            <p className="text-lg  max-w-2xl mx-auto">
               For inquiries, please reach out to us at{" "}
               <a
                 href="mailto:hello@letsbuilddao.org"
@@ -738,7 +1199,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="rounded-2xl shadow-2xl p-8 md:p-12">
+          <div
+            className={`rounded-2xl shadow-2xl p-8 md:p-12 transition-all duration-700 ${
+              isVisible.contact
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+            style={{ transitionDelay: isVisible.contact ? "200ms" : "0ms" }}
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               {submitStatus === "success" && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">

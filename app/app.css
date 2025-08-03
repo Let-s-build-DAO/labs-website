@@ -22,3 +22,17 @@ body {
   border-image-slice: 1;
   backdrop-filter: blur(500px);
 }
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-content {
+  animation: marquee 20s linear infinite;
+}
