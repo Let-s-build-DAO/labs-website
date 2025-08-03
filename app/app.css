@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+*{
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 @font-face {
   font-family: 'Atyp';
   src: url('/fonts/AtypDisplayTRIAL-Regular.otf') format('opentype');

@@ -73,6 +73,7 @@ export default function Home() {
     contact: false,
   });
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -120,6 +121,13 @@ export default function Home() {
   // Client-side only
   useEffect(() => {
     setIsClient(true);
+    
+    // Simulate loading time for smooth experience
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // 1.2 seconds loading
+    
+    return () => clearTimeout(loadingTimer);
   }, []);
 
   // Calculate scale and border radius based on scroll
@@ -177,7 +185,43 @@ export default function Home() {
 
   return (
     <>
-      <HeaderNav />
+      {/* Loading Screen */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#6B46C1] via-[#9333EA] to-[#E879F9] transition-opacity duration-500">
+          <div className="text-center">
+            {/* Logo/Brand Animation */}
+            <div className="mb-8 animate-pulse">
+              <div className="w-16 h-16 mx-auto mb-4 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded-full animate-bounce"></div>
+              </div>
+              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-wide">
+                Let's Build Labs
+              </h1>
+            </div>
+            
+            {/* Loading Animation */}
+            {/* <div className="flex justify-center space-x-2 mb-6">
+              <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-white/80 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div> */}
+            
+            {/* Loading Text */}
+            <p className="text-white/90 text-sm md:text-base font-medium">
+              Building the future of Web3...
+            </p>
+            
+            {/* Progress Bar */}
+            {/* <div className="w-64 h-1 bg-white/20 rounded-full mx-auto mt-6 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-white/60 to-white rounded-full animate-pulse"></div>
+            </div> */}
+          </div>
+        </div>
+      )}
+      
+      {/* Main Content */}
+      <div className={`transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        <HeaderNav />
       <section
         id="hero"
         className="relative overflow-hidden transition-transform duration-200 ease-out"
@@ -1369,6 +1413,7 @@ export default function Home() {
         </div>
       </section>
       <Footer />
+      </div>
     </>
   );
 }
