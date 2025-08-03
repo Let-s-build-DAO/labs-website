@@ -21,6 +21,17 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
+  // Favicon and app icons
+  { rel: "icon", href: "/favicon.ico", sizes: "any" },
+  { rel: "icon", href: "/images/icon.svg", type: "image/svg+xml" },
+  { rel: "apple-touch-icon", href: "/images/apple-touch-icon.png" },
+  
+  // DNS prefetch for external resources
+  { rel: "dns-prefetch", href: "//formsubmit.co" },
+  { rel: "dns-prefetch", href: "//fonts.googleapis.com" },
+  
+  // Preload critical resources
+  { rel: "preload", href: "/images/hero.jpg", as: "image", type: "image/jpeg" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

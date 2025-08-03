@@ -6,8 +6,50 @@ import axios from "axios";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Let's Build Labs" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Let's Build Labs - Innovating Web3 Technology in Africa" },
+    { 
+      name: "description", 
+      content: "Let's Build Labs is developing the next generation of Web3 solutions across Africa. Join our community of 1000+ developers building decentralized technology and blockchain experiences." 
+    },
+    { name: "keywords", content: "Web3, blockchain, decentralized technology, Africa, Web3 development, Let's Build DAO, cryptocurrency, DeFi, NFT, smart contracts, blockchain infrastructure" },
+    { name: "author", content: "Let's Build Labs" },
+    { name: "robots", content: "index, follow" },
+    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+    
+    // Open Graph tags for social media
+    { property: "og:title", content: "Let's Build Labs - Innovating Web3 Technology in Africa" },
+    { property: "og:description", content: "Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa." },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://letsbuilddao.org" },
+    { property: "og:image", content: "https://labs.letsbuilddao.org/images/og-image.png" },
+    { property: "og:image:alt", content: "Let's Build Labs - Web3 Development in Africa" },
+    { property: "og:site_name", content: "Let's Build Labs" },
+    { property: "og:locale", content: "en_US" },
+    
+    // Twitter Card tags
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Let's Build Labs - Innovating Web3 Technology in Africa" },
+    { name: "twitter:description", content: "Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa." },
+    { name: "twitter:image", content: "https://labs.letsbuilddao.org/images/og-image.png" },
+    { name: "twitter:image:alt", content: "Let's Build Labs - Web3 Development in Africa" },
+    { name: "twitter:site", content: "@LetsBuildDAO" },
+    { name: "twitter:creator", content: "@LetsBuildDAO" },
+    
+    // Additional SEO tags
+    { name: "theme-color", content: "#6B46C1" },
+    { name: "msapplication-TileColor", content: "#6B46C1" },
+    { name: "application-name", content: "Let's Build Labs" },
+    { name: "apple-mobile-web-app-title", content: "Let's Build Labs" },
+    { name: "apple-mobile-web-app-capable", content: "yes" },
+    { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+    
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: "https://labs.letsbuilddao.org" },
+    
+    // Alternate languages (if you plan to support multiple languages)
+    { tagName: "link", rel: "alternate", hrefLang: "en", href: "https://labs.letsbuilddao.org" },
+    
+   
   ];
 }
 
@@ -148,7 +190,9 @@ export default function Home() {
         <img
           src="/images/hero.jpg"
           className="w-full h-[100vh] object-cover"
-          alt="Hero Image"
+          alt="Let's Build Labs hero image showcasing Web3 and blockchain innovation in Africa"
+          loading="eager"
+          fetchPriority="high"
         />
 
         <div className="absolute inset-0 bg-black opacity-80"></div>
