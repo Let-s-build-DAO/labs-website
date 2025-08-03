@@ -381,8 +381,8 @@ export default function Home() {
               }`}
               style={{ transitionDelay: isVisible.about ? "400ms" : "0ms" }}
             >
-              <div className="relative">
-                <div className="bg-gradient-to-br from-[#6B46C1] to-[#9333EA] rounded-2xl p-8 text-white">
+              <div className="relative overflow-hidden">
+                <div className="bg-gradient-to-br overflow-hidden from-[#6B46C1] to-[#9333EA] rounded-2xl p-8 text-white">
                   <h4 className="text-xl font-bold mb-4">What Sets Us Apart</h4>
                   <ul className="space-y-3">
                     <li className="flex items-start">
