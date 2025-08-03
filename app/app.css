@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-*{
+/* *{
   max-width: 100%;
   overflow-x: hidden;
-}
+} */
 
 @font-face {
   font-family: 'Atyp';
@@ -15,6 +15,7 @@ html,
 body {
   background-color: #030303;
   color: #FBFBFB;
+  overflow-x: hidden;
   /* max-width: 1280px; */
   margin: 0 auto;
   font-family: 'Atyp';
