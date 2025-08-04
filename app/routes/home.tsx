@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Let's Build Labs - Innovating Web3 Technology in Africa" },
-  ];
+  return [{ title: "Let's Build Labs - Innovating Web3 Technology in Africa" }];
 }
 
 export default function Home() {
@@ -891,7 +889,8 @@ export default function Home() {
                 <p className="text-[#6B46C1] font-semibold mb-3">Team Lead</p>
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/great-adams-606b22187/"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -907,7 +906,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/greatAdams01"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -942,7 +942,7 @@ export default function Home() {
 
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/alabo-excel/"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -958,7 +958,7 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://github.com/alabo-excel"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1000,7 +1000,8 @@ export default function Home() {
               </p> */}
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/victoria-bibi-a4497a221/"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1054,7 +1055,8 @@ export default function Home() {
               </p> */}
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/jeremiah-chukundah-19bbb81b5/"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1070,7 +1072,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/jerrychukundah"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1100,7 +1103,8 @@ export default function Home() {
               </p> */}
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/natachijs/"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1116,7 +1120,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/natachijs"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1160,7 +1165,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/IamChardDo"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1206,7 +1212,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/josephbassey21"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1225,7 +1232,7 @@ export default function Home() {
                   CO
                 </div>
                 <h3 className="text-xl font-bold text-[#030303] mb-2">
-                  Chisaneme
+                  Chisaneme Aloni
                 </h3>
                 <p className="text-[#6B46C1] font-semibold mb-3">
                   Marketing Lead
@@ -1236,7 +1243,8 @@ export default function Home() {
               </p> */}
                 <div className="flex justify-center space-x-3">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/chisaneme-aloni/"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
@@ -1252,7 +1260,8 @@ export default function Home() {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/aloni212"
+                    target="_blank"
                     className="text-[#6B46C1] hover:text-[#553C9A] transition-colors"
                   >
                     <svg
