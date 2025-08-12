@@ -3,6 +3,7 @@ import type { Route } from "./+types/home";
 import Footer from "~/components/Footer";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Marquee from "react-fast-marquee";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Let's Build Labs - Innovating Web3 Technology in Africa" }];
@@ -563,66 +564,37 @@ export default function Home() {
             </div>
 
             <div className="overflow-hidden">
-              <div className="animate-marquee whitespace-nowrap py-8">
-                <div className="flex items-center space-x-16 mx-8 animate-marquee-content">
-                  <div className="flex-shrink-0 group">
+              <div className=" py-8">
+                <Marquee>
+                  <div className="flex-shrink-0 group mx-4">
                     <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                      className="h-16 w-auto my-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                       src="/images/partners/borderless.png"
                       alt="Borderless"
                     />
                   </div>
-                  <div className="flex-shrink-0 group">
+                  <div className="flex-shrink-0 group mx-4">
                     <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                      className="h-16 w-auto my-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 "
                       src="/images/partners/lisk.png"
                       alt="Lisk"
                     />
                   </div>
-                  <div className="flex-shrink-0 group">
+                  <div className="flex-shrink-0 group mx-4">
                     <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                      className="h-16 w-auto my-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 "
                       src="/images/partners/streamlivr.png"
                       alt="Streamlivr"
                     />
                   </div>
-                  <div className="flex-shrink-0 group">
+                  <div className="flex-shrink-0 group mx-4">
                     <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                      className="h-16 w-auto my-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 "
                       src="/images/partners/gdg.png"
                       alt="Google Developer Groups"
                     />
                   </div>
-                  {/* Duplicate for seamless loop */}
-                  <div className="flex-shrink-0 group">
-                    <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                      src="/images/partners/borderless.png"
-                      alt="Borderless"
-                    />
-                  </div>
-                  <div className="flex-shrink-0 group">
-                    <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                      src="/images/partners/lisk.png"
-                      alt="Lisk"
-                    />
-                  </div>
-                  <div className="flex-shrink-0 group">
-                    <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                      src="/images/partners/streamlivr.png"
-                      alt="Streamlivr"
-                    />
-                  </div>
-                  <div className="flex-shrink-0 group">
-                    <img
-                      className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                      src="/images/partners/gdg.png"
-                      alt="Google Developer Groups"
-                    />
-                  </div>
-                </div>
+                </Marquee>
               </div>
             </div>
           </div>
