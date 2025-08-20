@@ -249,7 +249,7 @@ export default function Home() {
                 <span className="block hover:scale-105 transition-transform duration-300">
                   The Future Begins
                 </span>
-                <span className="block bg-gradient-to-r from-[#7B5CFF] to-[#E879F9] bg-clip-text text-transparent hover:from-[#E879F9] hover:to-[#7B5CFF] transition-all duration-500">
+                <span className="block bg-gradient-to-r from-[#8E0EB9] to-[#E879F9] bg-clip-text text-transparent hover:from-[#E879F9] hover:to-[#8E0EB9] transition-all duration-500">
                   In Africa
                 </span>
                 <span className="block hover:scale-105 transition-transform duration-300">
@@ -279,7 +279,7 @@ export default function Home() {
                     : "opacity-0 translate-y-5"
                 }`}
               >
-                <button className="px-8 py-4 bg-gradient-to-r from-[#7B5CFF] to-[#6B46C1] text-white rounded-full font-semibold hover:from-[#6B46C1] hover:to-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-2xl active:scale-95">
+                <button className="px-8 py-4 bg-gradient-to-r from-[#8E0EB9] to-[#6B46C1] text-white rounded-full font-semibold hover:from-[#6B46C1] hover:to-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-2xl active:scale-95">
                   Join the Revolution
                 </button>
                 <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 rounded-full font-semibold hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95">
@@ -449,7 +449,7 @@ export default function Home() {
                   {/* Decorative Elements */}
                   <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#E879F9] rounded-full opacity-20 animate-pulse"></div>
                   <div
-                    className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#7B5CFF] rounded-full opacity-30 animate-pulse"
+                    className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#8E0EB9] rounded-full opacity-30 animate-pulse"
                     style={{ animationDelay: "1s" }}
                   ></div>
                 </div>

@@ -24,7 +24,7 @@ body {
 
 .linear {
   border: 1px solid transparent;
-  border-image-source: linear-gradient(90deg, rgba(123, 92, 255, 0.1) -2.94%, #7B5CFF 49.17%, rgba(123, 92, 255, 0.1) 102.37%);
+  border-image-source: linear-gradient(90deg, rgba(123, 92, 255, 0.1) -2.94%, #8E0EB9 49.17%, rgba(123, 92, 255, 0.1) 102.37%);
   border-image-slice: 1;
   backdrop-filter: blur(500px);
 }
