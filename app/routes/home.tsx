@@ -140,7 +140,7 @@ export default function Home() {
       formDataToSubmit.append("_template", "table");
 
       await axios.post(
-        "https://formsubmit.co/hello@letsbuilddao.org",
+        "https://formsubmit.co/hello@lbdao.xyz",
         formDataToSubmit,
         {
           headers: {
@@ -646,7 +646,7 @@ export default function Home() {
                     leveraging on-chain transaction data.
                   </p>
                   <a
-                    href="https://letsbuilddao.org"
+                    href="https://lbdao.xyz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
@@ -695,7 +695,7 @@ export default function Home() {
                     development, design, and blockchain writing.
                   </p>
                   <a
-                    href="https://academy.letsbuilddao.org"
+                    href="https://academy.lbdao.xyz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
@@ -745,7 +745,7 @@ export default function Home() {
                     innovators to bring impactful Web3 projects to life.
                   </p>
                   <a
-                    href="https://meetup.letsbuilddao.org"
+                    href="https://meetup.lbdao.xyz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
@@ -796,7 +796,7 @@ export default function Home() {
                     new economy of skills, community, and power.
                   </p>
                   <a
-                    href="https://lazy.letsbuilddao.org"
+                    href="https://lazy.lbdao.xyz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
@@ -1268,10 +1268,10 @@ export default function Home() {
                 believes in Africa's digital future, we want to hear from you.
                 Reach out at{" "}
                 <a
-                  href="mailto:hello@letsbuilddao.org"
+                  href="mailto:hello@lbdao.xyz"
                   className="text-[#6B46C1] hover:text-[#553C9A] font-semibold transition-colors duration-300"
                 >
-                  hello@letsbuilddao.org
+                  hello@lbdao.xyz
                 </a>{" "}
                 or use the form below to start your journey with us.
               </p>

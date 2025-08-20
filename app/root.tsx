@@ -63,10 +63,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           content="Building the next generation of Web3 solutions, empowering developers, and creating innovative blockchain experiences for everyone across Africa."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://letsbuilddao.org" />
+        <meta property="og:url" content="https://lbdao.xyz" />
         <meta
           property="og:image"
-          content="https://labs.letsbuilddao.org/images/og-image.png"
+          content="https://labs.lbdao.xyz/images/og-image.png"
         />
         <meta
           property="og:image:alt"
@@ -87,7 +87,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
         <meta
           name="twitter:image"
-          content="https://labs.letsbuilddao.org/images/og-image.png"
+          content="https://labs.lbdao.xyz/images/og-image.png"
         />
         <meta
           name="twitter:image:alt"
@@ -105,13 +105,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://labs.letsbuilddao.org" />
+        <link rel="canonical" href="https://labs.lbdao.xyz" />
 
         {/* Alternate languages */}
         <link
           rel="alternate"
           hrefLang="en"
-          href="https://labs.letsbuilddao.org"
+          href="https://labs.lbdao.xyz"
         />
 
         <Meta />
