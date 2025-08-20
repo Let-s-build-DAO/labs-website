@@ -745,7 +745,7 @@ export default function Home() {
                     innovators to bring impactful Web3 projects to life.
                   </p>
                   <a
-                    href="https://meetup.lbdao.xyz"
+                    href="https://events.lbdao.xyz"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center bg-[#6B46C1] text-white py-2 px-4 rounded-full hover:bg-[#553C9A] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-95 group-hover:shadow-lg"
